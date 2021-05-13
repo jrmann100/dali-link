@@ -1,0 +1,65 @@
+{
+  "name": "dali-link",
+  "version": "1.0.0",
+  "description": "Connecting DALI Lab members digitally since 2021.",
+  "@comments scripts": {
+    "dev": "run all dev:* scripts",
+    "dev:routify": "generate Routify's routes.js on filechange",
+    "build": "run all build:* scripts",
+    "build:routify": "build routify",
+    "serve": "serve content in 'dist' folder"
+  },
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:routify": "routify",
+    "serve": "run-p serve:*",
+    "serve:spa": "spassr",
+    "serve:ssr": "spassr --ssr --port 5005",
+    "build": "cross-env NODE_ENV=production run-s build:*",
+    "build:routify": "routify -b",
+    "test": "npm run test:dev && npm run test:build",
+    "test:dev": "node test/lib/wrapper dev ava test/{common,dev}/**/*.test.js",
+    "test:build": "node test/lib/wrapper build ava test/{common,build}/**/*.test.js",
+    "dev:vite": "vite",
+    "build:vite": "vite build",
+    "serve:vite": "vite preview"
+  },
+  "devDependencies": {
+    "@ava/cooperate": "^0.1.0",
+    "@roxi/routify": "^2.14.0",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.6",
+    "@tsconfig/svelte": "^1.0.10",
+    "cross-env": "^7.0.3",
+    "debounce-promise": "^3.1.2",
+    "fkill": "^7.1.0",
+    "npm-run-all": "^4.1.5",
+    "playwright": "^1.8.0",
+    "spassr": "^2.4.1-0",
+    "svelte": "^3.35.0",
+    "svelte-hmr": "^0.12.5",
+    "svelte-preprocess": "^4.7.3",
+    "typescript": "^4.2.4",
+    "vite": "^2.0.5"
+  },
+  "routify": {
+    "extensions": "svelte,html,svx,md"
+  },
+  "@comment options": [
+    "config provides defaults for spassr, spank, tossr and poindexter.",
+    "You can delete the field and this comment, if you use neither."
+  ],
+  "appConfig": {
+    "port": 5000,
+    "assetsDir": "static",
+    "template": "static/__app.html",
+    "distDir": "dist",
+    "buildDir": "dist/build"
+  },
+  "ava": {
+    "verbose": true
+  },
+  "dependencies": {
+    "@joeattardi/emoji-button": "^4.6.0",
+    "firebase": "^9.0.0-beta.1"
+  }
+}
