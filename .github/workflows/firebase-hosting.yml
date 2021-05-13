@@ -19,8 +19,8 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FUNFAX_NET }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_DALI_LINK }}"
           channelId: live
-          projectId: funfax-net
+          projectId: dali-link
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
