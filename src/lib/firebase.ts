@@ -1,8 +1,8 @@
-import { get, Writable } from "svelte/store";
+import { get, writable } from "svelte/store";
+import type { Writable } from "svelte/store";
 import { initializeApp, getApps } from "firebase/app";
-import { writable } from "svelte/store";
 import type { User } from "firebase/auth";
-import { doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot, setDoc, collection, getDocs, QuerySnapshot, query } from "firebase/firestore";
 import type { DocumentData, DocumentReference, } from "firebase/firestore";
 import {
     GoogleAuthProvider,
@@ -17,7 +17,6 @@ if (getApps().length === 0)
 
 export let auth = getAuth();
 export let db = getFirestore();
-// undefined = loading, null = logged out
 export let user: Writable<User | undefined | null> = writable(undefined);
 
 auth.onAuthStateChanged(user.set);
@@ -50,3 +49,23 @@ function docToStore(doc: DocumentReference): Writable<DocumentData | undefined> 
 export function getProfile(uid = get(user)!.uid) {
     return docToStore(doc(db, "users", uid));
 }
+
+export function getAllProfiles(): Writable<{ [id: string]: DocumentData; }> {
+
+    const { subscribe, set, update } = writable<{ [id: string]: DocumentData; }>(
+        {}
+    );
+    onSnapshot(query(collection(db, "users")), (pullDocs) => {
+        let docs: { [id: string]: DocumentData; } = {};
+        pullDocs.forEach(doc => docs[doc.id] = doc.data());
+        set(docs);
+    })
+    return {
+        subscribe,
+        set,
+        update
+        // set: () => { throw new Error("Store is writable only internally.") },
+        // update: () => { throw new Error("Store is writable only internally.") }
+    };
+}
+
