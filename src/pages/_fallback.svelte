@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>404 | funfax</title>
+    <title>404 | dali-link</title>
 </svelte:head>
 
 <h1 class="emoji">🤦🙅🔌🤝🌐🤷</h1>

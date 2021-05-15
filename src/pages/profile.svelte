@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { getProfile, user } from "$lib/firebase";
+    import { getProfile } from "$lib/firebase";
     import { debounce } from "$lib/utils";
     import type { DocumentData } from "firebase/firestore";
-    import { writable, get } from "svelte/store";
+    import { writable } from "svelte/store";
     import type { Writable } from "svelte/store";
 
     // This is not a good solution! Only works if user is editing one field at a time.
-    let saved = true;
+    let saved = "";
 
     const cloudProfile = getProfile();
     const localProfile: Writable<DocumentData | undefined> =
@@ -18,45 +18,129 @@
             JSON.stringify($cloudProfile) === JSON.stringify($localProfile) // object comparison
         )
             return;
+        if ($localProfile !== undefined) saved = "(updated.)";
+
         $localProfile = Object.assign({}, $cloudProfile); // super important to clone it
-        console.log("> downloading profile");
+        $ethnicities = ethnAll.filter((eth) => $cloudProfile![eth]);
     });
 
-    localProfile.subscribe(
-        debounce((prof: DocumentData | undefined) => {
-            if (
-                $localProfile === undefined ||
-                JSON.stringify($localProfile) === JSON.stringify($cloudProfile) // object comparison
-            )
-                return;
-            console.log("< uploading profile");
-            $cloudProfile = Object.assign({}, $localProfile); // super important to clone it
-        }, 700)
-    );
+    const pushToCloud = debounce((prof: DocumentData | undefined) => {
+        if (
+            $localProfile === undefined ||
+            JSON.stringify($localProfile) === JSON.stringify($cloudProfile) // object comparison
+        )
+            return;
+        $cloudProfile = Object.assign({}, $localProfile); // super important to clone it
+        saved = "(saved.)";
+    }, 1000);
+
+    localProfile.subscribe((prof) => {
+        if (JSON.stringify($localProfile) !== JSON.stringify($cloudProfile)) {
+            saved = "(saving...)";
+            pushToCloud();
+        }
+    });
+
+    const ethnAll = [
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Hispanic or Latino",
+        "Middle Eastern",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Other",
+    ];
+    const ethnicities: Writable<string[]> = writable([]);
+    ethnicities.subscribe((eths) => {
+        if (eths.length !== 0 && $localProfile !== undefined)
+            ethnAll.forEach(
+                (eth) => ($localProfile![eth] = eths.includes(eth) ? eth : "")
+            );
+    });
 </script>
 
 {#if $cloudProfile === undefined || $localProfile === undefined}
     Loading profile...
 {:else}
     <form class="profile" on:submit={(e) => e.preventDefault()}>
+        <!-- {JSON.stringify($localProfile)} -->
         <fieldset>
-            <legend>Your profile</legend>
+            <legend>Your profile {saved}</legend>
             {#each [["name", "Full Name"], ["major", "Major"], ["minor", "Minor"], ["modification", "Modification"], ["role", "DALI role"], ["home", "Hometown"], ["quote", "Quote"], ["favoriteShoe", "Favorite Shoe"], ["favoriteArtist", "Favorite Artist"]] as [name, display]}
-                <div class="input-wrapper">
-                    <label for={name}>{display}</label>
+                <label
+                    >{display}:
                     <input
                         {name}
                         type="text"
                         bind:value={$localProfile[name]}
-                    /><br />
-                </div>
+                    /></label
+                >
             {/each}
+            <div class="sets">
+                <fieldset>
+                    <legend>Gender</legend>
+                    {#each ["Male", "Female", "Other"] as gender}
+                        <label>
+                            <input
+                                name="gender"
+                                type="radio"
+                                bind:group={$localProfile.gender}
+                                value={gender}
+                            />
+                            {gender}</label
+                        >{/each}
+                </fieldset>
+                <fieldset>
+                    <legend>Phone Type</legend>
+                    {#each ["iOS", "Android", "Other"] as type}
+                        <label>
+                            <input
+                                name="phone"
+                                type="radio"
+                                bind:group={$localProfile.phoneType}
+                                value={type}
+                            />{type}</label
+                        >
+                    {/each}
+                </fieldset>
+                <fieldset>
+                    <legend>Misc.</legend>
+                    <label
+                        ><input
+                            name="color"
+                            type="color"
+                            bind:value={$localProfile.color}
+                        /> Favorite color</label
+                    >
+                    <label
+                        ><input
+                            name="birthday"
+                            type="date"
+                            bind:value={$localProfile.birthday}
+                        /> Birthday
+                    </label>
+                </fieldset>
+                <fieldset>
+                    <legend>Ethnicity</legend>
+                    {#each ethnAll as ethnicity}
+                        <label>
+                            <input
+                                name="gender"
+                                type="checkbox"
+                                bind:group={$ethnicities}
+                                value={ethnicity}
+                            />{ethnicity}</label
+                        >
+                    {/each}
+                </fieldset>
+            </div>
         </fieldset>
     </form>
 {/if}
 
 <svelte:window
-    on:beforeunload={saved === false
+    on:beforeunload={saved === "(saving...)"
         ? (e) => {
               e.preventDefault();
               e.returnValue = "";
@@ -65,26 +149,32 @@
 />
 
 <svelte:head>
-    <title>funfax | profile</title>
+    <title>dali-link | profile</title>
 </svelte:head>
 
-<!-- global because it doesn't acknowledge dataset attrs. -->
-<style global>
-    form.profile {
-        line-height: 200%;
-        min-width: 90%;
+<style>
+    form {
+        min-width: 80%;
     }
-    div.input-wrapper {
+    label {
         display: flex;
         margin-bottom: 0.5rem;
+        align-items: center;
     }
-    div.input-wrapper label {
-        margin-right: 1rem;
-    }
-    div.input-wrapper label::after {
-        content: ":";
-    }
-    div.input-wrapper input {
+    input[type="text"] {
         flex: 1;
+    }
+
+    input {
+        margin: 0 0.5rem;
+    }
+
+    div.sets {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    div.sets > fieldset > legend {
+        margin: auto;
     }
 </style>
