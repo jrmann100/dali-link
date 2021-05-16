@@ -13,8 +13,11 @@
    fill="#000000"
    version="1.1"
    id="svg837"
-   sodipodi:docname="favicon.svg"
-   inkscape:version="1.0.2 (e86c8708, 2021-01-15)">
+   sodipodi:docname="favicon-mask.svg"
+   inkscape:version="1.0.2 (e86c8708, 2021-01-15)"
+   inkscape:export-filename="/Users/jordan/Downloads/dalivicon.png"
+   inkscape:export-xdpi="940.79999"
+   inkscape:export-ydpi="940.79999">
   <metadata
      id="metadata843">
     <rdf:RDF>
@@ -47,11 +50,13 @@
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg837" />
+     inkscape:current-layer="svg837"
+     inkscape:document-rotation="0" />
   <path
      style="fill:#2f4f4f;fill-opacity:1"
-     d="M 10,0 C 4.48,0 0,4.48 0,10 0,15.52 4.48,20 10,20 15.52,20 20,15.52 20,10 20,4.48 15.52,0 10,0 Z"
-     id="path835" />
+     d="M 0,0 V 20 H 20 V 0 Z"
+     id="path835"
+     sodipodi:nodetypes="ccccc" />
   <path
      style="fill:#ffefd5;fill-opacity:1"
      d="m 13.609375,11.759766 c 1.07,0 2.919844,0.39039 3.839844,1.15039 C 16.279219,15.880156 13.39,18 10,18 9.73,18 9.4709375,17.990937 9.2109375,17.960938 v -4.070313 c 0,-1.42 2.9384375,-2.130859 4.3984375,-2.130859 z"

@@ -1,0 +1,42 @@
+{
+    "name": "dali-link",
+    "description": "DALI Lab networking for members, by members.",
+    "display": "standalone",
+    "start_url": "./index.html",
+    "background_color": "#2F4F4F",
+    "theme_color": "#2F4F4F",
+    "categories": [
+        "personalization",
+        "social"
+    ],
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "icon.svg",
+            "type": "image/svg+xml",
+            "sizes": "any"
+        },
+        {
+            "src": "icon-mask.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icon-mono.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "monochrome"
+        },
+        {
+            "src": "icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}

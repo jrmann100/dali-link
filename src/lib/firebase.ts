@@ -2,7 +2,7 @@ import { get, writable } from "svelte/store";
 import type { Writable } from "svelte/store";
 import { initializeApp, getApps } from "firebase/app";
 import type { User } from "firebase/auth";
-import { doc, getDoc, getFirestore, onSnapshot, setDoc, collection, query, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, onSnapshot, setDoc, collection, query, deleteDoc, enableIndexedDbPersistence } from "firebase/firestore";
 import type { DocumentData, DocumentReference } from "firebase/firestore";
 import {
     GoogleAuthProvider,
@@ -17,6 +17,23 @@ if (getApps().length === 0)
 
 export let auth = getAuth();
 export let db = getFirestore();
+
+// Enable Firestore caching.
+enableIndexedDbPersistence(db)
+    .catch((err) => {
+        console.warn("Error setting up offline Firestore caching:", err);
+        if (err.code == "failed-precondition") {
+            // Multiple tabs open, persistence can only be enabled
+            // in one tab at a a time.
+            // ...
+        } else if (err.code == "unimplemented") {
+            // The current browser does not support all of the
+            // features required to enable persistence
+            // ...
+        }
+    });
+// Subsequent queries will use persistence, if it was enabled successfully
+
 
 // Undefined is unset, null is logged out.
 export let user: Writable<User | undefined | null> = writable(undefined);

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { auth, user } from "$lib/firebase";
 	import { ready, url, isActive } from "@roxi/routify";
+	import A2HS from "$lib/A2HS.svelte";
 
 	$: if ($user === null)
 		(window as any).google.accounts.id.prompt((notification: any) => {
@@ -26,6 +27,7 @@
 </script>
 
 <header>
+	<A2HS />
 	<a href={$url("./index")}>
 		<span class="latin">dali-link</span> - networking for members, by members.
 	</a>

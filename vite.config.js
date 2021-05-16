@@ -2,6 +2,7 @@ import { appConfig } from './package.json'
 import path from 'path';
 import svelte from '@sveltejs/vite-plugin-svelte';
 import preprocess from 'svelte-preprocess';
+import { VitePWA } from 'vite-plugin-pwa'
 const { port } = appConfig
 const production = process.env.NODE_ENV === 'production'
 export default {
@@ -31,5 +32,6 @@ export default {
       emitCss: true,
       hot: !production,
     }),
+    VitePWA()
   ],
 }

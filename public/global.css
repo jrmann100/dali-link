@@ -48,6 +48,8 @@ header {
   padding-bottom: 0.5rem;
   border-bottom: 0.3rem double var(--black);
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
 
 header span.latin {
@@ -73,7 +75,7 @@ div.splash {
   height: 100%;
   font-size: 120%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
