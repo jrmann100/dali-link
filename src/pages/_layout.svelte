@@ -35,7 +35,9 @@
 	{#if $user !== null && $user !== undefined}
 		<slot />
 	{:else if $user === null}
-		<div id="google" use:renderButton />
+		<div class="splash">
+			<div id="google" use:renderButton />
+		</div>
 	{/if}
 </main>
 

@@ -85,6 +85,22 @@
                     >{/if}
             </span>
         </div>
+        <div class="data collapsed">
+            <span>📍 {$profile.home}</span>
+            <span>
+                {["👟", "👠", "👞", "🥾", "👢", "👡", "🩰", "⛸", "🛼", "🩴"][
+                    Math.floor(Math.random() * 10)
+                ]}
+                {$profile.favoriteShoe}</span
+            >
+            <span
+                >{["👩‍🎤", "🧑‍🎤", "👨‍🎤"][Math.floor(Math.random() * 3)]}
+                {$profile.favoriteArtist}</span
+            >
+            <span>📱 {$profile.phoneType}</span>
+            <span>🎂 {$profile.birthday}</span>
+            <span>💬 <i>{$profile.quote}</i></span>
+        </div>
     </div>
 {/if}
 
@@ -92,7 +108,6 @@
     div.wrapper {
         border: 0.1rem solid var(--black);
         box-sizing: border-box;
-        margin: 0.5rem;
         position: relative;
         width: 80%;
         margin: auto;
@@ -140,8 +155,19 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 0.5rem 0;
+        padding: 0.5rem;
         box-sizing: border-box;
+    }
+
+    div.data:not(.collapsed) {
+        grid-row: 1;
+        grid-column: 2;
+    }
+
+    div.data.collapsed {
+        grid-row: 2;
+        grid-column: span 2;
+        overflow-y: scroll;
     }
     span.emoji {
         font-size: 200%;
