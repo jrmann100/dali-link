@@ -73,6 +73,7 @@ div.splash {
   height: 100%;
   font-size: 120%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

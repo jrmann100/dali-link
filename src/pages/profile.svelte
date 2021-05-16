@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { getProfile } from "$lib/firebase";
+    import {
+        getProfile,
+        profileExists,
+        createProfile,
+        deleteProfile,
+    } from "$lib/firebase";
     import { debounce } from "$lib/utils";
     import type { DocumentData } from "firebase/firestore";
     import { writable } from "svelte/store";
@@ -51,6 +56,7 @@
         "White",
         "Other",
     ];
+
     const ethnicities: Writable<string[]> = writable([]);
     ethnicities.subscribe((eths) => {
         if (eths.length !== 0 && $localProfile !== undefined)
@@ -68,7 +74,19 @@
 </script>
 
 {#if $cloudProfile === undefined || $localProfile === undefined}
-    <div class="splash">Loading profile...</div>
+    <div class="splash">
+        {#await profileExists()}
+            <span>Loading profile...</span>
+        {:then profileDoesExist}
+            {#if !profileDoesExist}
+                <input
+                    type="button"
+                    value="Create your profile."
+                    on:click={() => createProfile()}
+                />
+            {/if}
+        {/await}
+    </div>
 {:else}
     <form class="profile" on:submit={(e) => e.preventDefault()}>
         <fieldset>
@@ -133,6 +151,21 @@
                             size="10"
                             bind:value={$localProfile.picture}
                         /> Photo URL
+                    </label>
+                    <label
+                        ><input
+                            name="delete"
+                            type="button"
+                            value="delete my profile"
+                            on:click={() => {
+                                if (
+                                    confirm(
+                                        "Deleting your profile is irreversible.\nAre you sure you want to continue?"
+                                    )
+                                )
+                                    deleteProfile();
+                            }}
+                        />
                     </label>
                 </fieldset>
                 <fieldset>

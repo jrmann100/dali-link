@@ -7,6 +7,7 @@
     export let expanded: boolean;
     const profile = getProfile(uid);
 
+    // Use demographic, role, and gender data to create an emoji representing the profile.
     const emojify = () => {
         if (!$profile) return "";
         const unicode = {
