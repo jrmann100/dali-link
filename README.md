@@ -11,6 +11,7 @@ It is a full-stack serverless app built on Firebase and using Svelte Routify.
 
 By [@jrmann100](https://github.com/jrmann100)
 
+https://user-images.githubusercontent.com/17690438/118416777-20508780-b666-11eb-8234-5cafa03e69b4.mov
 
 ## Objectives
 
