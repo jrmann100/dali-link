@@ -33,6 +33,7 @@ body {
   background-color: var(--white);
   color: var(--black);
   font-family: "Trebuchet MS", sans-serif;
+  scroll-behavior: smooth;
 }
 
 #routify-app {
@@ -44,6 +45,8 @@ body {
 }
 
 header {
+  padding-bottom: 0.5rem;
+  border-bottom: 0.3rem double var(--black);
   font-size: 1.2rem;
 }
 
@@ -62,6 +65,7 @@ main {
   margin: 0.5rem 0;
   overflow-y: scroll;
   position: relative;
+  scroll-behavior: smooth;
 }
 
 div.splash {
@@ -74,6 +78,8 @@ div.splash {
 }
 
 footer {
+  padding-top: 0.5rem;
+  border-top: 0.3rem double var(--black);
   text-align: right;
 }
 
