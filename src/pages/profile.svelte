@@ -4,8 +4,8 @@
     import type { DocumentData } from "firebase/firestore";
     import { writable } from "svelte/store";
     import type { Writable } from "svelte/store";
+    import { beforeUrlChange } from "@roxi/routify";
 
-    // This is not a good solution! Only works if user is editing one field at a time.
     let saved = "";
 
     const cloudProfile = getProfile();
@@ -58,16 +58,22 @@
                 (eth) => ($localProfile![eth] = eths.includes(eth) ? eth : "")
             );
     });
+
+    $beforeUrlChange(() => {
+        if (saved === "(saving...)") {
+            alert("Please allow one second for changes to save.");
+            return false;
+        } else return true;
+    });
 </script>
 
 {#if $cloudProfile === undefined || $localProfile === undefined}
-    Loading profile...
+    <div class="splash">Loading profile...</div>
 {:else}
     <form class="profile" on:submit={(e) => e.preventDefault()}>
-        <!-- {JSON.stringify($localProfile)} -->
         <fieldset>
             <legend>Your profile {saved}</legend>
-            {#each [["name", "Full Name"], ["major", "Major"], ["minor", "Minor"], ["modification", "Modification"], ["role", "DALI role"], ["home", "Hometown"], ["quote", "Quote"], ["favoriteShoe", "Favorite Shoe"], ["favoriteArtist", "Favorite Artist"]] as [name, display]}
+            {#each [["name", "Full Name"], ["major", "Major"], ["minor", "Minor"], ["modification", "Modification"], ["role", "DALI role"], ["home", "Hometown"], ["quote", "Quote"], ["favoriteShoe", "Favorite Shoe"], ["favoriteArtist", "Favorite Artist"], ["year", "Year"]] as [name, display]}
                 <label
                     >{display}:
                     <input
@@ -110,7 +116,7 @@
                         ><input
                             name="color"
                             type="color"
-                            bind:value={$localProfile.color}
+                            bind:value={$localProfile.favoriteColor}
                         /> Favorite color</label
                     >
                     <label
@@ -119,6 +125,14 @@
                             type="date"
                             bind:value={$localProfile.birthday}
                         /> Birthday
+                    </label>
+                    <label
+                        ><input
+                            name="picture"
+                            type="url"
+                            size="10"
+                            bind:value={$localProfile.picture}
+                        /> Photo URL
                     </label>
                 </fieldset>
                 <fieldset>

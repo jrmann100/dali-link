@@ -2,7 +2,7 @@ import { get, writable } from "svelte/store";
 import type { Writable } from "svelte/store";
 import { initializeApp, getApps } from "firebase/app";
 import type { User } from "firebase/auth";
-import { doc, getFirestore, onSnapshot, setDoc, collection, getDocs, QuerySnapshot, query } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot, setDoc, collection, query } from "firebase/firestore";
 import type { DocumentData, DocumentReference, } from "firebase/firestore";
 import {
     GoogleAuthProvider,
@@ -62,10 +62,23 @@ export function getAllProfiles(): Writable<{ [id: string]: DocumentData; }> {
     })
     return {
         subscribe,
-        set,
-        update
-        // set: () => { throw new Error("Store is writable only internally.") },
-        // update: () => { throw new Error("Store is writable only internally.") }
+        set: () => { throw new Error("Store is writable only internally.") },
+        update: () => { throw new Error("Store is writable only internally.") }
+    };
+}
+
+export function getAllProfilesID(): Writable<string[]> {
+
+    const { subscribe, set, update } = writable<string[]>([]);
+    onSnapshot(query(collection(db, "users")), (pullDocs) => {
+        let docs: string[] = [];
+        pullDocs.forEach(doc => docs.push(doc.id));
+        set(docs);
+    })
+    return {
+        subscribe,
+        set: () => { throw new Error("Store is writable only internally.") },
+        update: () => { throw new Error("Store is writable only internally.") }
     };
 }
 

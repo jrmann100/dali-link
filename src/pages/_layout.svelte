@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { auth, user } from "$lib/firebase";
-	import { ready } from "@roxi/routify";
+	import { ready, url, isActive } from "@roxi/routify";
 
 	$: if ($user === null)
 		(window as any).google.accounts.id.prompt((notification: any) => {
@@ -26,7 +26,7 @@
 </script>
 
 <header>
-	<a href="/">
+	<a href={$url("./index")}>
 		<span class="latin">dali-link</span> - networking for members, by members.
 	</a>
 </header>
@@ -45,13 +45,12 @@
 	{:else if $user === undefined}
 		You are logging in...
 	{:else}
-		<!-- <img
-			src={$user.photoURL ||
-				"https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"}
-			alt="User-uploaded profile"
-		/> -->
 		You are {$user.displayName}. (
-		<a href="/profile">profile</a>
+		{#if !$isActive("./profile")}
+			<a href={$url("./profile")}>profile</a>
+		{:else}
+			<a href={$url("./index")}>home</a>
+		{/if}
 		|
 		<a href={"#"} on:click={async () => await auth.signOut()}>log out</a>
 		)
