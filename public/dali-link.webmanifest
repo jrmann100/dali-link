@@ -2,7 +2,7 @@
     "name": "dali-link",
     "description": "DALI Lab networking for members, by members.",
     "display": "standalone",
-    "start_url": "./index.html",
+    "start_url": "/index",
     "background_color": "#2F4F4F",
     "theme_color": "#2F4F4F",
     "categories": [
@@ -32,6 +32,12 @@
             "src": "icon-192.png",
             "type": "image/png",
             "sizes": "192x192"
+        },
+        {
+            "src": "icon-mask-192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "maskable"
         },
         {
             "src": "icon-512.png",
