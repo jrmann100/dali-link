@@ -45,4 +45,4 @@ firebase deploy
 ```
 
 #### A brief note on version control
-_This project originally began as [jrmann100/funfax](https://github.com/jrmann100/funfax), but my vision for the product and the challenge requirements didn't align well. I plan to continue developing funfax.net on my own with the experience I've gained from this project._
+_This project originally began as [jrmann100/funfax](https://github.com/jrmann100/funfax), but my vision for the product and the challenge requirements diverged quickly. I plan to continue developing funfax.net on my own with the experience I've gained from this project._
