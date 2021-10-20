@@ -37,7 +37,7 @@
             return;
         $cloudProfile = Object.assign({}, $localProfile); // super important to clone it
         saved = "(saved.)";
-    }, 1000);
+    }, 750);
 
     localProfile.subscribe((prof) => {
         if (JSON.stringify($localProfile) !== JSON.stringify($cloudProfile)) {
@@ -223,5 +223,34 @@
 
     div.sets > fieldset > legend {
         margin: auto;
+    }
+
+    /*
+    Keep the form frame fixed on the page.
+    */
+
+    form {
+        height: 100%;
+    }
+
+    form > fieldset {
+        height: 95%;
+        overflow-y: scroll;
+    }
+
+    form > fieldset > legend {
+        position: relative;
+        padding: 0.1rem 0.2rem;
+    }
+
+    form > fieldset > legend:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: calc(50% - 0.05rem);
+        height: calc(50% + 0.05rem);
+        width: calc(100% - 0.1rem);
+        border: 0.1rem solid var(--black);
+        border-top-width: 0;
     }
 </style>

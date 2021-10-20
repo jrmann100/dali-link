@@ -1,6 +1,6 @@
 import { appConfig } from './package.json'
 import path from 'path';
-import svelte from '@sveltejs/vite-plugin-svelte';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import preprocess from 'svelte-preprocess';
 import { VitePWA } from 'vite-plugin-pwa'
 const { port } = appConfig
@@ -12,7 +12,7 @@ export default {
   build: {
     polyfillDynamicImport: false,
     cssCodeSplit: false,
-    target: ['chrome61', 'edge18', 'es2019', 'firefox60', 'safari11'],
+    // target: ['chrome61', 'edge18', 'es2019', 'firefox60', 'safari11'],
   },
   optimizeDeps: {
     exclude: ['@roxi/routify'],

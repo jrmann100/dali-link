@@ -122,6 +122,11 @@
         height: 8rem;
         overflow-y: hidden;
     }
+
+    div.wrapper:not(:last-of-type) {
+        margin-bottom: 1rem;
+    }
+
     div.wrapper.expanded {
         height: 20rem;
     }
